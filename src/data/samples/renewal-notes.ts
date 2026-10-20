@@ -1,12 +1,23 @@
 // 시안 섹션별 설명: 기존 상세(통이미지 18장)와 무엇이 다르고, 왜 이렇게 했는지
 // id는 시안 컴포넌트의 data-note 값과 맞춘다
 
+// 마케팅 관점 메모 (시안 1 · 2): 누구를 위한 자리인지 → 무엇을 하게 만드는지 → 어떤 광고와 잇는지 → 무엇으로 확인하는지
+// 지표는 '어떻게 잴지'만 적는다. 근거 없는 효과 수치(전환율 몇 % 상승)는 쓰지 않는다
+export interface Marketing {
+  who: string;
+  does: string;
+  ads?: string;
+  measure: string;
+}
+
 export interface SectionNote {
   id: string;
   label: string;
   before: string;
   after: string;
-  why: string;
+  // 예전 시안(목록에서 뺀 페이지)은 why 한 칸, 시안 1 · 2는 marketing
+  why?: string;
+  marketing?: Marketing;
   ref?: string;
 }
 

@@ -11,6 +11,9 @@ import { cn } from "@/lib/utils";
 // - 메모는 기본 숨김, 맨 위 메모 띠를 눌러야 시트로 열림 (PC · 모바일 같음) → 사이트 일부로 오해하지 않게
 // - iframe 안에 들어간 시안에서는 안내 띠도 메모도 그리지 않는다
 
+// 메모 띠 켜기/끄기. 사용자 요청으로 꺼 둠 (2026-10-20) — 다시 켜 달라고 하면 true로
+const SHOW_NOTES = false;
+
 function activeIn(win: Window, notes: SectionNote[]) {
   let index = 0;
   notes.forEach((note, i) => {
@@ -27,6 +30,24 @@ function NoteBody({ note, index, total }: { note: SectionNote; index: number; to
         {String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
       </p>
       <p className="mt-1 text-lg font-black text-neutral-950">{note.label}</p>
+      {/* 마케팅 이유를 먼저, 무엇이 바뀌었는지는 그 아래 */}
+      {note.marketing && (
+        <dl className="mt-4 space-y-3 rounded-md bg-white/80 p-3 text-[13px] leading-relaxed">
+          {[
+            ["누구를 위한 자리", note.marketing.who],
+            ["이 섹션이 하게 만드는 일", note.marketing.does],
+            ["연결할 광고", note.marketing.ads],
+            ["확인할 지표", note.marketing.measure],
+          ]
+            .filter(([, v]) => v)
+            .map(([k, v]) => (
+              <div key={k}>
+                <dt className="text-[11px] font-bold text-neutral-950">{k}</dt>
+                <dd className="mt-0.5 text-neutral-800">{v}</dd>
+              </div>
+            ))}
+        </dl>
+      )}
       <dl className="mt-4 space-y-3 text-[13px] leading-relaxed">
         <div>
           <dt className="text-[11px] font-bold text-amber-800/70">기존</dt>
@@ -36,10 +57,12 @@ function NoteBody({ note, index, total }: { note: SectionNote; index: number; to
           <dt className="text-[11px] font-bold text-amber-800/70">바뀐 점</dt>
           <dd className="mt-0.5 font-medium text-neutral-900">{note.after}</dd>
         </div>
-        <div className="rounded-md bg-white/70 p-3">
-          <dt className="text-[11px] font-bold text-neutral-950">왜</dt>
-          <dd className="mt-0.5 text-neutral-800">{note.why}</dd>
-        </div>
+        {note.why && (
+          <div className="rounded-md bg-white/70 p-3">
+            <dt className="text-[11px] font-bold text-neutral-950">왜</dt>
+            <dd className="mt-0.5 text-neutral-800">{note.why}</dd>
+          </div>
+        )}
         {note.ref && <p className="text-[11px] text-amber-900/60">참고 · {note.ref}</p>}
       </dl>
     </div>
@@ -133,7 +156,7 @@ export function ReviewMode({
     <>
       {!embedded && (
         <>
-          {rationale && <Notes title={rationale.title} notes={rationale.notes} />}
+          {SHOW_NOTES && rationale && <Notes title={rationale.title} notes={rationale.notes} />}
           <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 bg-cobalt px-4 py-2 text-center text-xs font-bold text-white">
             <span>{label}</span>
             {links.map((link) => (

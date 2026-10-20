@@ -12,7 +12,7 @@ yarn build        # 정적 export → out/
 ```
 
 - 개발 서버를 띄운 뒤 `yarn build`를 하면 `.next` 캐시가 꼬여 turbopack runtime 오류가 난다 → `rm -rf .next` 후 다시 빌드.
-- 작업 브랜치: `outdo-renewal-samples` (main에는 아직 병합 안 함).
+- 작업 브랜치: `outdo-renewal-samples`. 2026-10-20 시안 2까지 main에 fast-forward 반영함(push는 안 함).
 
 ## 큰 그림 (2026-10-20 기준)
 
@@ -49,7 +49,7 @@ yarn build        # 정적 export → out/
 | 시안 2 홈 | `src/app/samples/draft2/home/page.tsx`, `src/components/home/VelitesHome.tsx`, 데이터 `src/data/samples/outdo-home-2.ts` (상품은 `outdo-home.ts` 공유) |
 | 시안 2 상세 | `src/app/samples/draft2/detail/page.tsx`, `src/components/product/VelitesProduct.tsx`, 데이터 `src/data/samples/velites-product.ts` (브리즈 벨트 재료는 시안 1 데이터 공유) |
 | 360 보기 (시안 1 · 2 공용) | `src/components/product/Spin360.tsx` — 회전판 사진은 `skims-product.ts`의 `spinFrames` |
-| 검토 모드(항상 전체 화면. 맨 위 노란 띠 → 메모 시트, PC · 모바일 같음. 폰 틀 화면 · '샘플 목록' 링크는 발표용으로 뺌) | `src/components/renewal/ReviewMode.tsx`. 섹션에 `data-note="id"`를 달고 `SectionNote[]`(기존 · 바뀐 점 · 왜 · 참고)를 넘긴다 |
+| 검토 모드(항상 전체 화면. 맨 위 노란 띠 → 메모 시트, PC · 모바일 같음. 폰 틀 화면 · '샘플 목록' 링크는 발표용으로 뺌. **메모 띠는 사용자 요청으로 꺼 둠 — `SHOW_NOTES = false`, 사용자가 다시 켜자고 할 때만 true.** 메모는 마케팅 형식(누구 · 하게 만드는 일 · 연결 광고 · 확인 지표)이고 '보기 어렵다'는 피드백이 있어 다시 켤 때 화면 정리 필요) | `src/components/renewal/ReviewMode.tsx`. 섹션에 `data-note="id"`를 달고 `SectionNote[]`(기존 · 바뀐 점 · 왜 · 참고)를 넘긴다 |
 | OUTDO 헤더 · 푸터 클론 | `src/components/shop/ShopHeader.tsx`, `ShopFooter.tsx` |
 | 브리즈 벨트 원본 데이터(가격 · 리뷰 · 배송) | `src/data/samples/breeze-belt.ts` |
 | 브리즈 벨트 공통 재료(사진 크롭 · 컬러 · 사이즈 · 엠버서더 · FAQ · 비교) | `src/data/samples/breeze-renewal.ts` |
