@@ -1,0 +1,479 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>OUTDO 레퍼런스 분석</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+<style>
+  :root {
+    --bg: #f6f7f9;
+    --card: #ffffff;
+    --ink: #15181e;
+    --sub: #5b6270;
+    --line: #e3e6ec;
+    --cobalt: #0047ab;
+    --cobalt-soft: #e8effa;
+    --warn: #b4441f;
+    --warn-soft: #fbeee8;
+    --ok: #1d7a46;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0e1013;
+      --card: #171a1f;
+      --ink: #eef0f3;
+      --sub: #9aa1ad;
+      --line: #2a2f37;
+      --cobalt: #4d8dff;
+      --cobalt-soft: #16233a;
+      --warn: #ff8a5c;
+      --warn-soft: #2a1a14;
+      --ok: #4cc88a;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Pretendard Variable", Pretendard, -apple-system, system-ui, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 48px 16px 96px; }
+  header .eyebrow { font-size: 13px; font-weight: 700; color: var(--cobalt); letter-spacing: .08em; }
+  header h1 { margin: 6px 0 8px; font-size: clamp(28px, 5vw, 40px); line-height: 1.2; letter-spacing: -0.02em; }
+  header p { margin: 0; color: var(--sub); }
+  nav.toc { display: flex; flex-wrap: wrap; gap: 8px; margin: 28px 0 8px; }
+  nav.toc a { font-size: 13px; color: var(--sub); text-decoration: none; border: 1px solid var(--line); border-radius: 999px; padding: 5px 12px; background: var(--card); }
+  nav.toc a:hover { color: var(--cobalt); border-color: var(--cobalt); }
+  section { margin-top: 48px; }
+  h2 { font-size: 22px; margin: 0 0 16px; letter-spacing: -0.01em; display: flex; align-items: center; gap: 10px; }
+  h2 .num { font-size: 12px; font-weight: 800; color: #fff; background: var(--cobalt); border-radius: 6px; padding: 2px 7px; }
+  h3 { font-size: 17px; margin: 0 0 8px; }
+  h4 { font-size: 14px; margin: 14px 0 6px; color: var(--sub); }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 20px; }
+  .grid { display: grid; gap: 12px; }
+  .g2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+  ul, ol { margin: 0; padding-left: 20px; }
+  li { margin: 4px 0; }
+  .muted { color: var(--sub); font-size: 13px; }
+  a { color: var(--cobalt); word-break: break-all; }
+  code { font-size: 12px; background: var(--bg); border: 1px solid var(--line); border-radius: 4px; padding: 0 4px; }
+  .tag { display: inline-block; font-size: 11px; font-weight: 700; border-radius: 4px; padding: 1px 6px; margin-right: 4px; vertical-align: 1px; }
+  .tag.c { background: var(--cobalt); color: #fff; }
+  .tag.s { background: var(--cobalt-soft); color: var(--cobalt); }
+  .tag.w { background: var(--warn-soft); color: var(--warn); }
+  .tag.o { border: 1px solid var(--line); color: var(--sub); }
+  .takeaways { list-style: none; padding: 0; display: grid; gap: 10px; counter-reset: t; }
+  .takeaways li { counter-increment: t; margin: 0; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px 14px 52px; position: relative; }
+  .takeaways li::before { content: counter(t); position: absolute; left: 16px; top: 13px; width: 24px; height: 24px; border-radius: 50%; background: var(--cobalt); color: #fff; font-size: 13px; font-weight: 800; display: grid; place-items: center; }
+  .takeaways b { display: block; }
+  .site { display: grid; gap: 20px; grid-template-columns: minmax(0, 1fr); }
+  @media (min-width: 860px) { .site { grid-template-columns: 340px minmax(0, 1fr); } }
+  .shot { border: 1px solid var(--line); border-radius: 10px; overflow: auto; max-height: 640px; background: #fff; }
+  .shot img { display: block; width: 100%; height: auto; }
+  .shots { display: grid; gap: 10px; }
+  .shot-label { font-size: 12px; color: var(--sub); margin: 0 0 4px; }
+  .flow { counter-reset: f; list-style: none; padding: 0; margin: 0; }
+  .flow li { counter-increment: f; padding-left: 28px; position: relative; font-size: 14px; }
+  .flow li::before { content: counter(f); position: absolute; left: 0; top: 2px; font-size: 11px; font-weight: 800; color: var(--cobalt); border: 1px solid var(--cobalt); border-radius: 4px; width: 20px; text-align: center; line-height: 18px; }
+  .take { background: var(--cobalt-soft); border-radius: 10px; padding: 12px 14px; margin-top: 12px; font-size: 14px; }
+  .take b { color: var(--cobalt); }
+  .caution { background: var(--warn-soft); border-radius: 10px; padding: 12px 14px; margin-top: 10px; font-size: 14px; }
+  .pins { display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+  .pin { background: var(--card); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; }
+  .pin a.img { display: block; background: #eee; aspect-ratio: 4 / 5; overflow: hidden; }
+  .pin img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .pin .body { padding: 12px 14px 14px; font-size: 13px; display: grid; gap: 6px; }
+  .pin .meta { display: flex; justify-content: space-between; color: var(--sub); font-size: 12px; }
+  .pin .what { font-weight: 700; font-size: 14px; }
+  .pin .use { color: var(--ink); }
+  .pin .use::before { content: "→ "; color: var(--cobalt); font-weight: 800; }
+  .pin .fix { font-size: 12px; color: var(--warn); }
+  .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; background: var(--card); }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 640px; }
+  th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-size: 12px; color: var(--sub); font-weight: 600; background: var(--bg); }
+  tr:last-child td { border-bottom: 0; }
+  .yes { color: var(--ok); font-weight: 700; }
+  .no { color: var(--sub); }
+  .wire { display: grid; gap: 8px; }
+  .wire .blk { border: 1.5px dashed var(--line); border-radius: 10px; padding: 12px 14px; background: var(--card); display: grid; grid-template-columns: 34px 1fr; gap: 10px; }
+  .wire .blk .n { font-weight: 800; color: var(--cobalt); }
+  .wire .blk b { display: block; }
+  .wire .blk span { font-size: 13px; color: var(--sub); }
+  .wire .blk.hl { border-color: var(--cobalt); }
+  footer { margin-top: 56px; font-size: 12px; color: var(--sub); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">OUTDO REFERENCE ANALYSIS</div>
+    <h1>레퍼런스 사이트 · 핀 분석</h1>
+    <p>2026-10-19 · 대화에서 공유된 사이트 6곳(+경쟁사 상세 2건)과 Pinterest 핀 19개를 실제로 열어보고 정리. 브리프: <a href="outdo-renewal-brief.html">outdo-renewal-brief.html</a></p>
+  </header>
+
+  <nav class="toc">
+    <a href="#summary">핵심 결론</a>
+    <a href="#velites">Velites</a>
+    <a href="#nike">Nike SKIMS</a>
+    <a href="#wodfriends">와드프렌즈</a>
+    <a href="#xpodium">엑스포디움</a>
+    <a href="#directories">GDWEB · awwwards</a>
+    <a href="#pins">핀 19개</a>
+    <a href="#mapping">요구사항 매핑</a>
+    <a href="#proposal">상세페이지 구성 초안</a>
+    <a href="#limits">미확인 사항</a>
+  </nav>
+
+  <!-- 1 -->
+  <section id="summary">
+    <h2><span class="num">01</span>핵심 결론</h2>
+    <ol class="takeaways">
+      <li><b>국내 경쟁사는 전부 "통이미지 상세", 해외 레퍼런스는 "HTML 섹션 상세"</b>
+        와드프렌즈(아임웹), 엑스포디움(카페24), 현재 OUTDO 모두 긴 이미지 한 장~여러 장. Velites · Nike는 갤러리 + 아코디언 + 기능 카드 + 비교표 + FAQ를 HTML로 쌓음 → 검색 · 수정 · 모바일 가독성에서 차이가 큼.</li>
+      <li><b>Velites가 가장 가까운 정답지</b>
+        같은 카테고리(리프팅 벨트, 그립, 니슬리브), 비슷한 가격(€49.99 ≈ 브리즈 벨트 48,000원). 컬러 스와치 · 기능 카드 5개 · 모델 비교표 · FAQ 12개 구조를 그대로 차용 가능.</li>
+      <li><b>360° 회전 뷰는 열어본 레퍼런스 어디에도 없음</b>
+        Velites도 4컷 갤러리 + 영상. 와드프렌즈도 각도별 정지컷. → 국내 크로스핏 장비 시장에서 <b>OUTDO만의 차별 포인트</b>가 될 수 있음. 단, 회전 촬영(24~36컷) 필요.</li>
+      <li><b>소재 클로즈업은 "영상 대신 사진 + 기술명 카드"로 해결 가능</b>
+        Nike SKIMS "컬렉션 가이드"가 원단 클로즈업 사진 + 소재명 + 한 줄 설명. 휘영이 원한 "지켜보지 않아도 되는" 방식의 실제 예.</li>
+      <li><b>핀 19개는 4갈래로 정리됨</b>
+        ① 구조도 · 스펙 도식 ② 다각도 모델컷 ③ 소재 · 재료 스와치 ④ 브랜드 감도(에디토리얼/카피). 이전 브리프의 추정 분류 중 6개가 실제와 달라 정정함(아래 핀 섹션 참고).</li>
+    </ol>
+  </section>
+
+  <!-- 2 Velites -->
+  <section id="velites">
+    <h2><span class="num">02</span>Velites <span class="tag c">마케터 선호</span></h2>
+    <div class="site">
+      <div>
+        <p class="muted" style="margin-top:0"><a href="https://eu.velitessport.com/" target="_blank" rel="noreferrer">eu.velitessport.com</a> · Shopify · 스페인 크로스핏 장비 브랜드</p>
+        <h4>리프팅 벨트 상세 구성 (€49.99)</h4>
+        <ol class="flow">
+          <li>2×2 이미지 그리드 (정면 · 펼친 측면 · 버클 클로즈업 · 수납 가방)</li>
+          <li>우측 고정 구매 패널: 별점 → 상품명 · 가격 → 한 줄 설명 → <b>컬러 스와치 5개</b> → 사이즈 XS~XL + 사이즈표 → 스페셜 에디션 → 담기 → 도착 예정일 · 무료배송 · 분할결제</li>
+          <li>아코디언 4개: Details / Materials / Innovation / Shipping</li>
+          <li><b>Design features</b> 카드 5개 (착용 사진 + 제목 + 2줄 설명): 해부학적 디자인, 점탄성 코어, 벨크로, 고중량용, IWF 규정 12cm</li>
+          <li>풀폭 영상 배너 (소재 클로즈업) + "Maximum support for your core" 카피</li>
+          <li>연관 상품 캐러셀 (컬러 도트 포함)</li>
+          <li>Trustpilot 리뷰 4.8 / 53건, 별점 분포</li>
+          <li>FAQ 12개 (2단): 단단한가? 갈비뼈를 찌르나? 크로스핏에 써도 되나? 사이즈는? 관리법은?</li>
+        </ol>
+        <h4>그립 상세에만 있는 것</h4>
+        <ul>
+          <li><b>Compare models 표</b>: 바 · 링 · 케틀벨 용도 체크, 초크/두께/보호력을 막대 게이지로 비교</li>
+        </ul>
+        <h4>홈</h4>
+        <ul>
+          <li>풀폭 히어로 슬라이드 → 파트너 로고 띠(CrossFit, HYROX, PRVN…) → Bestsellers(Gear / Apparel / Footwear 탭) → <b>Categories: 단색 배경 블록 4개</b>(Gear 블루 · Footwear 핑크 · Women 옐로 · Men 그린) → Women / Men 캐러셀 → 브랜드 선언("We are Made, not Born.") → 프로젝트 카드 → 종목별 컬렉션(CrossFit / HYROX / 역도)</li>
+        </ul>
+        <div class="take"><b>가져올 것:</b> 구매 패널 컬러 스와치, Design features 카드, 모델 비교표(리프팅 벨트 vs 브리즈 벨트), FAQ, 브랜드 한 줄 선언("Made, not Born" ↔ OUTDO "OUTDO THE BEST")</div>
+        <div class="caution">배경이 흰색 위주라 BOLD한 느낌은 약함. 사진 퀄리티(어두운 박스 · 실내 짐 조명)가 감도를 만듦.</div>
+      </div>
+      <div class="shots">
+        <p class="shot-label">벨트 상세 (스크롤)</p>
+        <div class="shot"><img src="references/sites/velites-belt.jpg" alt="Velites 리프팅 벨트 상세 전체 캡처" loading="lazy" /></div>
+        <p class="shot-label">그립 상세 — 모델 비교표 포함</p>
+        <div class="shot"><img src="references/sites/velites-grip.jpg" alt="Velites 그립 상세 전체 캡처" loading="lazy" /></div>
+        <p class="shot-label">홈</p>
+        <div class="shot"><img src="references/sites/velites-home.jpg" alt="Velites 홈 전체 캡처" loading="lazy" /></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 Nike -->
+  <section id="nike">
+    <h2><span class="num">03</span>Nike SKIMS <span class="tag c">휘영 "필수요소"</span></h2>
+    <div class="site">
+      <div>
+        <p class="muted" style="margin-top:0"><a href="https://www.nike.com/kr/nikeskims" target="_blank" rel="noreferrer">nike.com/kr/nikeskims</a> · 컬렉션 랜딩 페이지 (상품 상세 아님)</p>
+        <h4>구성</h4>
+        <ol class="flow">
+          <li>서브 내비: 전체 구매하기 / 컬렉션 가이드 / 브라 가이드 / 룩북</li>
+          <li>히어로: 컬러별 착장 모델 <b>24컷 그리드</b> (같은 배경, 다른 아이템)</li>
+          <li>짧은 카피 블록 "올데이 유니폼" + 버튼 2개</li>
+          <li>2단 피처 카드 (아우터웨어 / 시즌 컬러)</li>
+          <li><b>Shop by Color</b>: 컬러명 + 해당 컬러 모델컷 캐러셀</li>
+          <li><b>컬렉션 가이드</b>: 원단 클로즈업 사진 + 소재명(퍼포먼스 코튼 블렌드, 스튜디오 스트레치, 메쉬) + 한 줄 설명</li>
+          <li>Shop by Category → <b>Shop by Movement</b> (스튜디오 / 피트니스 / 라이프스타일)</li>
+        </ol>
+        <div class="take"><b>가져올 것:</b> 소재 클로즈업 카드(영상 없이 해결), 컬러별 착장컷, "종목별로 고르기"(크로스핏 / 역도 / 하이록스)</div>
+        <div class="caution">대화에서 공유된 나이키 캡처 2장은 받지 못해서, 휘영이 짚은 "필수요소"가 정확히 어느 부분인지는 확인 필요. 페이지 일부 이미지는 지연 로딩으로 캡처에 회색 박스로 보임.</div>
+      </div>
+      <div class="shots">
+        <div class="shot"><img src="references/sites/nikeskims.jpg" alt="Nike SKIMS 페이지 전체 캡처" loading="lazy" /></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 WOD Friends -->
+  <section id="wodfriends">
+    <h2><span class="num">04</span>와드프렌즈 <span class="tag w">직접 경쟁사</span></h2>
+    <div class="site">
+      <div>
+        <p class="muted" style="margin-top:0"><a href="https://www.wodfriendskorea.com/" target="_blank" rel="noreferrer">wodfriendskorea.com</a> · 아임웹 · 부산</p>
+        <h4>벨트 라인업 · 가격</h4>
+        <div class="table-wrap" style="min-width:0">
+          <table style="min-width:0">
+            <tbody>
+              <tr><td>뉴 EVA 4인치 리프팅 벨트</td><td>55,000원</td></tr>
+              <tr><td>4인치 벨크로 패치 리프팅 벨트</td><td>45,000원</td></tr>
+              <tr><td>EVA 4인치 (카키/화이트/블랙/핑크)</td><td>65,000원</td></tr>
+              <tr><td>나일론 리프팅 벨트 (3color)</td><td>20,000원 (세일)</td></tr>
+              <tr><td><b>참고: OUTDO 브리즈 벨트</b></td><td><b>48,000원</b></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h4>벨크로 패치 벨트 상세 흐름 (통이미지 860×17,469px)</h4>
+        <ol class="flow">
+          <li>타이틀 + 흰 배경 각도별 제품컷 (정면 · 측면 · 패치 부착)</li>
+          <li>"2025 파이스트 쓰로다운에서 선수들이 착용한 리프팅 벨트!" 대회 착용컷</li>
+          <li>기능마다 <b>헤드카피 2줄 → 클로즈업 → 설명 3줄</b> 반복: 패치 커스텀, 스테인리스 이중 잠금, 프리미엄 벨크로, 두께 2.0mm, 고무 라벨</li>
+          <li>펼친 길이 도식 + 사이즈표 (허리 inch · 총길이 · 높이)</li>
+          <li>패치 5종 소개</li>
+        </ol>
+        <div class="take"><b>가져올 것:</b> 구체적 수치("2.0mm", "이중 잠금")로 말하는 카피, 대회 착용 증거, 펼친 길이 도식</div>
+        <div class="caution"><b>차별화 포인트:</b> 와드프렌즈는 "패치 커스텀"이 무기. OUTDO는 가벼움(238g), 슬림 두께(6.9mm), 디자인으로 맞서야 함. 둘 다 통이미지 → OUTDO가 HTML 상세 + 360°로 가면 경험 자체에서 앞설 수 있음.</div>
+      </div>
+      <div class="shots">
+        <p class="shot-label">벨크로 패치 벨트 상세 이미지</p>
+        <div class="shot"><img src="references/sites/wf-velcro-belt-detail.jpg" alt="와드프렌즈 벨크로 패치 벨트 상세 이미지" loading="lazy" /></div>
+        <p class="shot-label">뉴 EVA 벨트 상세 이미지</p>
+        <div class="shot"><img src="references/sites/wf-eva-belt-detail.jpg" alt="와드프렌즈 EVA 벨트 상세 이미지" loading="lazy" /></div>
+        <p class="shot-label">홈</p>
+        <div class="shot"><img src="references/sites/wodfriends-home.jpg" alt="와드프렌즈 홈 캡처" loading="lazy" /></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 Xpodium -->
+  <section id="xpodium">
+    <h2><span class="num">05</span>엑스포디움 <span class="tag w">직접 경쟁사</span></h2>
+    <div class="site">
+      <div>
+        <p class="muted" style="margin-top:0"><a href="https://www.xpodium.co.kr/" target="_blank" rel="noreferrer">xpodium.co.kr</a> · 카페24 · 블랙 톤</p>
+        <h4>특징</h4>
+        <ul>
+          <li>홈: 다크 히어로 영상 + EQUIPMENT / GEAR / APPAREL 3분할 카드. 매우 짧음</li>
+          <li>GEAR에 벨트 없음 (그립 4종, 무릎보호대, 스트랩, 손목아대)</li>
+          <li>상세(무릎보호대): 제품컷 → 착용 사진 → <b>체크리스트 3줄</b> → 컬러(원형 사진 칩) → 사이즈표</li>
+          <li>상세(카본 그립): 사실상 이미지 1~2장. 대화에서 말한 "제품 설명보다 예시컷" 그대로</li>
+        </ul>
+        <div class="take"><b>가져올 것:</b> 원형 사진 컬러칩, 체크리스트 요약. 블랙 베이스 브랜드 톤은 OUTDO(블랙 · 실버)와 겹치므로 차별화 필요</div>
+      </div>
+      <div class="shots">
+        <p class="shot-label">무릎보호대 상세</p>
+        <div class="shot"><img src="references/sites/xpodium-knee.jpg" alt="엑스포디움 무릎보호대 상세 캡처" loading="lazy" /></div>
+        <p class="shot-label">홈</p>
+        <div class="shot"><img src="references/sites/xpodium-home.jpg" alt="엑스포디움 홈 캡처" loading="lazy" /></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 Directories -->
+  <section id="directories">
+    <h2><span class="num">06</span>GDWEB · awwwards</h2>
+    <div class="grid g2">
+      <div class="card">
+        <h3>GDWEB 2026 모바일 선정작</h3>
+        <p class="muted" style="margin-top:0">목록 첫 페이지 60건 확인. 대부분 금융 · 병원 · 기업 · 교육 사이트라 장비 커머스와 직접 맞는 건 적음.</p>
+        <p style="margin:8px 0 4px">커머스 · 브랜드 쪽 후보</p>
+        <ul>
+          <li>그랑핸드 GRANHAND (향 브랜드 커머스)</li>
+          <li>BIGC. · 멜로우앤코 · 더현대Hi · 수협쇼핑 · 롯데하이마트</li>
+        </ul>
+        <div class="caution">개별 수상작은 열어보지 않음. 회사에서 이 중 어떤 걸 보라는 건지 먼저 확인하는 게 효율적.</div>
+      </div>
+      <div class="card">
+        <h3>awwwards</h3>
+        <p class="muted" style="margin-top:0">Sports · E-commerce 카테고리 목록만 확인 (각 90~120건).</p>
+        <p style="margin:8px 0 4px">이름상 관련 있어 보이는 후보 (미열람)</p>
+        <ul>
+          <li>The 360° Racing Studio — 360° 뷰 참고 후보</li>
+          <li>Podium · Day One Run · Orbea · becore</li>
+          <li>Selkirk CS 2.0 Shoes · Ducati Superleggera V4 (제품 단일 페이지)</li>
+        </ul>
+        <div class="caution">글로벌용 감도 레퍼런스라 국내 상세 작업 이후 별도로 추리는 게 좋음.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 Pins -->
+  <section id="pins">
+    <h2><span class="num">07</span>Pinterest 핀 19개</h2>
+    <p class="muted">이미지를 누르면 원본 핀으로 이동. 빨간 글씨는 이전 브리프의 추정 분류와 실제가 달랐던 핀.</p>
+    <div class="pins">
+
+      <div class="pin"><a class="img" href="https://pin.it/5EJ03vIiP" target="_blank" rel="noreferrer"><img src="references/pins/5EJ03vIiP.jpg" alt="" loading="lazy" /></a>
+        <div class="body"><div class="meta"><span>16:33</span><span class="tag s">구조도</span></div>
+          <div class="what">패딩 이커머스 UI — 제품 주변 지시선 콜아웃</div>
+          <div class="use">상세 첫 화면: 벨트 누끼 + 지시선으로 벨크로 · 코어 · 버클 기능 표기</div></div></div>
+
+      <div class="pin"><a class="img" href="https://pin.it/1CJsLJr61" target="_blank" rel="noreferrer"><img src="references/pins/1CJsLJr61.jpg" alt="" loading="lazy" /></a>
+        <div class="body"><div class="meta"><span>16:35</span><span class="tag s">착장 모델</span></div>
+          <div class="what">CCTV 컨셉 — 인물 위 파란 박스로 신체 부위 포커스 + 확대 인셋</div>
+          <div class="use">착장 모델 위에 허리(벨트) · 손(그립) · 무릎(니슬리브) 박스. 파란 박스를 코발트 포인트로 쓰기 딱 좋음</div></div></div>
+
+      <div class="pin"><a class="img" href="https://pin.it/2FcOXBDas" target="_blank" rel="noreferrer"><img src="references/pins/2FcOXBDas.jpg" alt="" loading="lazy" /></a>
+        <div class="body"><div class="meta"><span>16:37</span><span class="tag c">다각도</span></div>
+          <div class="what">발렌시아가 상세 컨셉 — 정면 · 측면 · 후면 착장컷 가로 나열</div>
+          <div class="use">"앞뒤옆 다 보여줘야지"의 직접 예시. 모바일은 스와이프</div>
+          <div class="fix">정정: 이전엔 "디자인 요소"로만 분류</div></div></div>
+
+      <div class="pin"><a class="img" href="https://pin.it/7B5rvbsJL" target="_blank" rel="noreferrer"><img src="references/pins/7B5rvbsJL.jpg" alt="" loading="lazy" /></a>
+        <div class="body"><div class="meta"><span>16:49</span><span class="tag o">글로벌 UI</span></div>
+          <div class="what">Modaestile 이커머스 UI 세트 (주문 · 장바구니 · 계정 · 상품)</div>
+          <div class="use">글로벌몰 톤: 흰 배경, 얇은 라인, 블랙 버튼</div></div></div>
+
+      <div class="pin"><a class="img" href="https://pin.it/jWmBGJUbw" target="_blank" rel="noreferrer"><img src="references/pins/jWmBGJUbw.jpg" alt="" loading="lazy" /></a>
+        <div class="body"><div class="meta"><span>16:50</span><span class="tag s">스펙 게이지</span></div>
+          <div class="what">칵테일 메뉴 — 재료 리스트 + Level / Sweet / Sour 슬라이더</div>
+          <div class="use">지지력 · 유연성 · 두께 · 무게를 게이지로. Velites 비교표와 결합</div>
+          <div class="fix">정정: 이전엔 "글로벌 방향성"</div></div></div>
+
+      <div class="pin"><a class="img" href="https://pin.it/1shJ5DwWK" target="_blank" rel="noreferrer"><img src="references/pins/1shJ5DwWK.jpg" alt="" loading="lazy" /></a>
+        <div class="body"><div class="meta"><span>16:50</span><span class="tag s">스펙 게이지</span></div>
+          <div class="what">Hanamori 칵테일 카드 — INGREDIENTS / PROFILE 점(●●●○○) 평가</div>
+          <div class="use">미니멀한 도트 레이팅으로 제품 성격 표기</div>
+          <div class="fix">정정: 이전엔 "글로벌 방향성"</div></div></div>
+
+      <div class="pin"><a class="img" href="https://pin.it/FebyjpOme" target="_blank" rel="noreferrer"><img src="references/pins/FebyjpOme.jpg" alt="" loading="lazy" /></a>
+        <div class="body"><div class="meta"><span>16:51</span><span class="tag o">톤</span></div>
+          <div class="what">GINZA 칵테일 — 단일 오브젝트, 넓은 여백, 블루 톤</div>
+          <div class="use">미니멀 제품컷 톤. 블루가 주인공 색으로 들어간 예</div>
+          <div class="fix">정정: 이전엔 "글로벌 방향성"</div></div></div>
+
+      <div class="pin"><a class="img" href="https://pin.it/xtxb6Dewl" target="_blank" rel="noreferrer"><img src="references/pins/xtxb6Dewl.jpg" alt="" loading="lazy" /></a>
+        <div class="body"><div class="meta"><span>16:52</span><span class="tag c">컬러 포인트</span></div>
+          <div class="what">MADNESS 패션몰 — 흑백 베이스에 레드를 로고 · 섹션 하나에만</div>
+          <div class="use">이 레드 자리에 코발트블루. "도배 말고 포인트"의 정확한 예</div></div></div>
+
+      <div class="pin"><a class="img" href="https://pin.it/36xoGv6DI" target="_blank" rel="noreferrer"><img src="references/pins/36xoGv6DI.jpg" alt="" loading="lazy" /></a>
+        <div class="body"><div class="meta"><span>16:53</span><span class="tag c">카피 · BOLD</span></div>
+          <div class="what">FRISKEY 스포츠웨어 — 굵은 대문자 카피 + 종목 카테고리</div>
+          <div class="use">"FAIT POUR CEUX QUI BOUGENT."(움직이는 사람을 위해) 같은 4~5단어 카피. 블루 톤이라 코발트와도 맞음</div></div></div>
+
+      <div class="pin"><a class="img" href="https://pin.it/4nFudRgUE" target="_blank" rel="noreferrer"><img src="references/pins/4nFudRgUE.jpg" alt="" loading="lazy" /></a>
+        <div class="body"><div class="meta"><span>16:54</span><span class="tag s">도식화</span></div>
+          <div class="what">Willett 의자 스펙시트 — 사진 3컷 + 라인 도면(치수) + 스펙 표</div>
+          <div class="use">벨트 사진 + 펼친 라인 도면(폭 10cm · 두께 6.9mm · 길이) + 스펙 표</div></div></div>
+
+      <div class="pin"><a class="img" href="https://pin.it/183xm30pO" target="_blank" rel="noreferrer"><img src="references/pins/183xm30pO.jpg" alt="" loading="lazy" /></a>
+        <div class="body"><div class="meta"><span>16:55</span><span class="tag c">확대 + 구조도</span></div>
+          <div class="what">Nothing 헤드폰 Object Study — 부품 분해 01~05 + 소재명 + 그래프</div>
+          <div class="use">벨트 레이어 분해: 외피 원단 · 내부 패드 · 벨크로 · 버클 · 로고 라벨을 번호로</div></div></div>
+
+      <div class="pin"><a class="img" href="https://pin.it/ci1aZPPio" target="_blank" rel="noreferrer"><img src="references/pins/ci1aZPPio.jpg" alt="" loading="lazy" /></a>
+        <div class="body"><div class="meta"><span>16:55</span><span class="tag c">구조도 · BOLD</span></div>
+          <div class="what">ORANGE PROD-Z-PROTO — 거대 타이포 + 지시선 + 블루프린트 + 스펙 표</div>
+          <div class="use">BOLD 키워드에 맞는 테크 스펙 시트 스타일. 코발트로 바꾸면 그대로 OUTDO 톤</div>
+          <div class="fix">정정: 이전엔 "글로벌홈 브랜드 감도"</div></div></div>
+
+      <div class="pin"><a class="img" href="https://pin.it/2bx82fhpV" target="_blank" rel="noreferrer"><img src="references/pins/2bx82fhpV.jpg" alt="" loading="lazy" /></a>
+        <div class="body"><div class="meta"><span>16:56</span><span class="tag o">브랜드 감도</span></div>
+          <div class="what">SOHO beauty 에디토리얼 — 사진과 세리프 텍스트 교차 배치</div>
+          <div class="use">글로벌 홈의 브랜드 스토리 섹션 레이아웃</div></div></div>
+
+      <div class="pin"><a class="img" href="https://pin.it/3rh1g1JZa" target="_blank" rel="noreferrer"><img src="references/pins/3rh1g1JZa.jpg" alt="" loading="lazy" /></a>
+        <div class="body"><div class="meta"><span>16:57</span><span class="tag c">다각도</span></div>
+          <div class="what">ARES 백 — 같은 모델 정면 · 측면 · 후면 3컷 + 크게 크롭한 디테일 1컷</div>
+          <div class="use">상세 키비주얼: 착용 3방향 + 벨트 클로즈업 1컷</div></div></div>
+
+      <div class="pin"><a class="img" href="https://pin.it/1hmWkCh5g" target="_blank" rel="noreferrer"><img src="references/pins/1hmWkCh5g.jpg" alt="" loading="lazy" /></a>
+        <div class="body"><div class="meta"><span>17:00</span><span class="tag s">홈 카테고리</span></div>
+          <div class="what">"Made for sports." — 모델 착장에 아이템명 지시선 (SOCKS · TANK · SHORTS)</div>
+          <div class="use">홈 카테고리: 모델 1명이 벨트 · 그립 · 니슬리브 착용, 지시선을 각 카테고리 링크로 (shop the look)</div></div></div>
+
+      <div class="pin"><a class="img" href="https://pin.it/6juqTcFk5" target="_blank" rel="noreferrer"><img src="references/pins/6juqTcFk5.jpg" alt="" loading="lazy" /></a>
+        <div class="body"><div class="meta"><span>17:01</span><span class="tag c">컬러칩</span></div>
+          <div class="what">TREND ALERT — 컬러 바 + 해당 컬러 제품을 나란히</div>
+          <div class="use">컬러칩 섹션. 원래 컬러칩 핀(gWzIm9bML)이 안 열려서 이걸 대체 레퍼런스로</div>
+          <div class="fix">정정: 이전엔 "짐백 연출"</div></div></div>
+
+      <div class="pin"><a class="img" href="https://pin.it/Lj150dzlP" target="_blank" rel="noreferrer"><img src="references/pins/Lj150dzlP.jpg" alt="" loading="lazy" /></a>
+        <div class="body"><div class="meta"><span>17:01</span><span class="tag s">짐백</span></div>
+          <div class="what">"inside the bag" — 가방에서 쏟아진 소지품에 라벨</div>
+          <div class="use">홈: 짐백에서 벨트 · 그립 · 초크 · 니슬리브가 쏟아지는 비주얼 + 라벨 = 카테고리</div></div></div>
+
+      <div class="pin"><a class="img" href="https://pin.it/2eX96xpKR" target="_blank" rel="noreferrer"><img src="references/pins/2eX96xpKR.jpg" alt="" loading="lazy" /></a>
+        <div class="body"><div class="meta"><span>17:08</span><span class="tag s">재료</span></div>
+          <div class="what">착장컷 옆 원단 스와치 + 손글씨 메모</div>
+          <div class="use">벨트 소재 스와치 (외피 원단 · 내부 패드 · 벨크로) 카드</div></div></div>
+
+      <div class="pin"><a class="img" href="https://pin.it/5yAMNGcUw" target="_blank" rel="noreferrer"><img src="references/pins/5yAMNGcUw.jpg" alt="" loading="lazy" /></a>
+        <div class="body"><div class="meta"><span>17:08</span><span class="tag s">재료</span></div>
+          <div class="what">착장 사진 + 원단 샘플 보드</div>
+          <div class="use">컬러별 원단 샘플 보드 → 컬러칩과 결합 가능</div></div></div>
+
+    </div>
+    <p class="muted" style="margin-top:12px">※ <code>pin.it/gWzIm9bML</code>(16:54, "컬러칩도 확실하게 보이고")은 Pinterest가 오류 페이지로 보냄. 링크 만료 또는 비공개 핀으로 보여서 다시 받아야 함.</p>
+  </section>
+
+  <!-- 8 Mapping -->
+  <section id="mapping">
+    <h2><span class="num">08</span>요구사항 ↔ 레퍼런스 매핑</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>휘영 요구사항</th><th>참고할 레퍼런스</th><th>현재 OUTDO</th><th>구현 메모</th></tr></thead>
+        <tbody>
+          <tr><td>360° 회전 뷰</td><td>레퍼런스 중엔 없음 (awwwards "360° Racing Studio" 후보)</td><td class="no">없음</td><td>회전 촬영 24~36컷 → 드래그 시 프레임 교체. 아임웹엔 HTML 위젯으로 삽입</td></tr>
+          <tr><td>앞뒤옆위아래</td><td>핀 2FcOXBDas · 3rh1g1JZa, 와드프렌즈 각도컷</td><td class="no">일부 (사선 컷 위주)</td><td>360° 촬영본에서 6방향 정지컷 추출하면 촬영 1번으로 해결</td></tr>
+          <tr><td>소재 클로즈업 (영상 X)</td><td>Nike 컬렉션 가이드, 핀 2eX96xpKR · 5yAMNGcUw</td><td class="yes">있음 (DETAIL 01~02)</td><td>사진 + 소재명 + 한 줄 카드. 탭하면 확대(줌)</td></tr>
+          <tr><td>확대샷 + 구조도</td><td>핀 183xm30pO · ci1aZPPio · 5EJ03vIiP</td><td class="no">없음</td><td>SVG 지시선 + 번호. 이미지 위 좌표만 지정하면 재사용 가능</td></tr>
+          <tr><td>도식화</td><td>핀 4nFudRgUE, 와드프렌즈 펼친 길이 도식</td><td class="yes">일부 (사이즈 실측 도식)</td><td>치수 라인 도면 SVG, 스펙 표는 HTML로</td></tr>
+          <tr><td>컬러칩</td><td>핀 6juqTcFk5, Velites 스와치, 엑스포디움 원형 칩</td><td class="yes">있음 (단, 블루/그린 표기 혼동)</td><td>스와치 클릭 → 갤러리 · 360° 전부 해당 컬러로 전환</td></tr>
+          <tr><td>재료 컷</td><td>핀 2eX96xpKR · 5yAMNGcUw</td><td class="no">없음</td><td>원단 스와치 촬영 필요</td></tr>
+          <tr><td>읽히는 카피</td><td>핀 36xoGv6DI, 와드프렌즈 헤드카피</td><td class="no">문장형 설명 위주</td><td>섹션당 헤드 4~6단어 + 수치 하나</td></tr>
+          <tr><td>착장 모델 + 컬러 조합 (구현 X)</td><td>핀 1CJsLJr61 · 1hmWkCh5g, Nike 컬러 그리드</td><td class="no">없음</td><td>시안에서는 정지 이미지 예시만</td></tr>
+          <tr><td>(추가) 모델 비교</td><td>Velites Compare models</td><td class="yes">있음 (이미지)</td><td>리프팅 벨트 vs 브리즈 벨트를 HTML 표 + 게이지로</td></tr>
+          <tr><td>(추가) FAQ</td><td>Velites FAQ 12개</td><td class="yes">2개 (이미지)</td><td>아코디언 FAQ. 사이즈 · 세탁 · 크로스핏 사용 여부</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 9 Proposal -->
+  <section id="proposal">
+    <h2><span class="num">09</span>국내 상세페이지 구성 초안 (디테일 강화안)</h2>
+    <p class="muted">내일 레이아웃 시안의 뼈대. 파란 테두리는 경쟁사에 없는 OUTDO만의 블록.</p>
+    <div class="wire">
+      <div class="blk hl"><span class="n">01</span><div><b>360° 뷰어 + 컬러 스와치</b><span>드래그 회전. 스와치 누르면 컬러 전환. 아래에 6방향 정지컷 썸네일</span></div></div>
+      <div class="blk"><span class="n">02</span><div><b>구매 정보</b><span>상품명 · 가격 · 한 줄 카피 · 사이즈 선택 + 실측 가이드 링크 · 배송 안내 (Velites 구매 패널)</span></div></div>
+      <div class="blk"><span class="n">03</span><div><b>핵심 수치 3개</b><span>238g · 6.9mm · 10cm. 큰 숫자 + 한 단어 (와드프렌즈식 수치 카피)</span></div></div>
+      <div class="blk hl"><span class="n">04</span><div><b>구조도 (분해 · 지시선)</b><span>벨트 누끼 위 번호 지시선 01~05 → 탭하면 해당 클로즈업 (핀 183x · ci1a)</span></div></div>
+      <div class="blk"><span class="n">05</span><div><b>소재 카드</b><span>클로즈업 사진 + 소재명 + 한 줄. 영상 없이 (Nike 컬렉션 가이드)</span></div></div>
+      <div class="blk"><span class="n">06</span><div><b>Design features 카드</b><span>착용 사진 + 헤드카피 + 2줄 (Velites). 크로스핏 동작별</span></div></div>
+      <div class="blk"><span class="n">07</span><div><b>도면 + 스펙 표</b><span>펼친 라인 도면(치수) + 스펙 표 (핀 4nFud)</span></div></div>
+      <div class="blk"><span class="n">08</span><div><b>리프팅 벨트 vs 브리즈 벨트 비교</b><span>용도 체크 + 게이지 (Velites Compare models + 핀 jWmB)</span></div></div>
+      <div class="blk"><span class="n">09</span><div><b>컬러칩 + 착장</b><span>컬러 바 + 해당 컬러 착용컷 (핀 6juq, Nike Shop by Color)</span></div></div>
+      <div class="blk"><span class="n">10</span><div><b>사이즈 가이드 + 앰배서더 착용 사이즈</b><span>기존 콘텐츠를 HTML 표로</span></div></div>
+      <div class="blk"><span class="n">11</span><div><b>리뷰 + FAQ</b><span>포토리뷰 → FAQ 아코디언 → 배송 · 교환</span></div></div>
+    </div>
+  </section>
+
+  <!-- 10 Limits -->
+  <section id="limits">
+    <h2><span class="num">10</span>미확인 · 한계</h2>
+    <div class="card">
+      <ul>
+        <li>핀 <code>gWzIm9bML</code>(컬러칩)은 열리지 않음 → 휘영에게 다시 요청</li>
+        <li>대화 속 사진 5장(나이키 캡처 2장, 로고 2장 등)은 텍스트에 없어서 분석 못 함</li>
+        <li>Velites 소재 영상 2개는 URL만 확인, 내용은 보지 않음</li>
+        <li>GDWEB · awwwards는 목록만 보고 개별 사이트는 열지 않음</li>
+        <li>Nike SKIMS 일부 이미지는 지연 로딩으로 캡처에 회색 박스</li>
+        <li>캡처 이미지는 내부 참고용. 외부 공개 · 커밋은 하지 않는 걸 권장 (타사 저작물)</li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>
+    작성일 2026-10-19 · 이미지: <code>docs/references/</code> (pins 19장, sites 캡처)
+  </footer>
+</div>
+</body>
+</html>

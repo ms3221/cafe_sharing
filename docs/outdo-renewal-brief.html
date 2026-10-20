@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>OUTDO 리뉴얼 브리프</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+<style>
+  :root {
+    --bg: #f6f7f9;
+    --card: #ffffff;
+    --ink: #15181e;
+    --sub: #5b6270;
+    --line: #e3e6ec;
+    --cobalt: #0047ab;
+    --cobalt-soft: #e8effa;
+    --silver: #c0c4cc;
+    --warn: #b4441f;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0e1013;
+      --card: #171a1f;
+      --ink: #eef0f3;
+      --sub: #9aa1ad;
+      --line: #2a2f37;
+      --cobalt: #4d8dff;
+      --cobalt-soft: #16233a;
+      --warn: #ff8a5c;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Pretendard Variable", Pretendard, -apple-system, system-ui, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 48px 16px 96px; }
+  header .eyebrow { font-size: 13px; font-weight: 700; color: var(--cobalt); letter-spacing: .08em; }
+  header h1 { margin: 6px 0 8px; font-size: clamp(28px, 5vw, 40px); line-height: 1.2; letter-spacing: -0.02em; }
+  header p { margin: 0; color: var(--sub); }
+  nav.toc { display: flex; flex-wrap: wrap; gap: 8px; margin: 28px 0 8px; }
+  nav.toc a { font-size: 13px; color: var(--sub); text-decoration: none; border: 1px solid var(--line); border-radius: 999px; padding: 5px 12px; background: var(--card); }
+  nav.toc a:hover { color: var(--cobalt); border-color: var(--cobalt); }
+  section { margin-top: 40px; }
+  h2 { font-size: 20px; margin: 0 0 14px; letter-spacing: -0.01em; display: flex; align-items: center; gap: 10px; }
+  h2 .num { font-size: 12px; font-weight: 800; color: #fff; background: var(--cobalt); border-radius: 6px; padding: 2px 7px; }
+  h3 { font-size: 15px; margin: 0 0 8px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 20px; }
+  .grid { display: grid; gap: 12px; }
+  .g2 { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+  .g3 { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+  .kpi .label { font-size: 12px; color: var(--sub); }
+  .kpi .value { font-size: 22px; font-weight: 800; margin-top: 2px; }
+  .kpi .note { font-size: 13px; color: var(--sub); margin-top: 4px; }
+  ul, ol { margin: 0; padding-left: 20px; }
+  li { margin: 4px 0; }
+  .muted { color: var(--sub); font-size: 13px; }
+  .tag { display: inline-block; font-size: 11px; font-weight: 700; border-radius: 4px; padding: 1px 6px; margin-right: 4px; vertical-align: 1px; }
+  .tag.must { background: var(--cobalt); color: #fff; }
+  .tag.opt { border: 1px solid var(--line); color: var(--sub); }
+  .tag.ref { background: var(--cobalt-soft); color: var(--cobalt); }
+  .chips { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 4px; }
+  .chip { display: flex; align-items: center; gap: 10px; }
+  .chip i { width: 44px; height: 44px; border-radius: 10px; border: 1px solid var(--line); display: block; }
+  .chip b { display: block; font-size: 14px; }
+  .chip span { font-size: 12px; color: var(--sub); }
+  .req { counter-reset: r; list-style: none; padding: 0; display: grid; gap: 10px; }
+  .req li { counter-increment: r; margin: 0; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px 14px 52px; position: relative; }
+  .req li::before { content: counter(r, decimal-leading-zero); position: absolute; left: 16px; top: 14px; font-weight: 800; color: var(--cobalt); }
+  .req li > b { display: block; }
+  .req li p { margin: 2px 0 0; font-size: 13px; color: var(--sub); }
+  .quote { border-left: 3px solid var(--cobalt); padding: 2px 0 2px 12px; color: var(--sub); font-size: 14px; margin: 8px 0 0; }
+  .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; background: var(--card); }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 520px; }
+  th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-size: 12px; color: var(--sub); font-weight: 600; background: var(--bg); }
+  tr:last-child td { border-bottom: 0; }
+  td.time { white-space: nowrap; color: var(--sub); font-variant-numeric: tabular-nums; }
+  a { color: var(--cobalt); word-break: break-all; }
+  .todo { list-style: none; padding: 0; }
+  .todo li { display: flex; gap: 10px; align-items: flex-start; padding: 8px 0; border-bottom: 1px dashed var(--line); }
+  .todo li:last-child { border-bottom: 0; }
+  .todo input { margin-top: 5px; accent-color: var(--cobalt); }
+  .callout { background: var(--cobalt-soft); border-radius: 12px; padding: 14px 16px; font-size: 14px; }
+  .callout.warn { background: transparent; border: 1px solid var(--warn); color: var(--ink); }
+  footer { margin-top: 56px; font-size: 12px; color: var(--sub); }
+  .fix{display:inline-block;margin-left:6px;padding:0 6px;border-radius:4px;background:#1339cd;color:#fff;font-size:11px;font-weight:700;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">OUTDO RENEWAL BRIEF</div>
+    <h1>아웃두 홈페이지 · 상세페이지 리뉴얼 브리프</h1>
+    <p>2026-10-19 휘영 · 안형준 대화 내용을 요구사항, 레퍼런스, 일정, 할 일 중심으로 정리</p>
+  </header>
+
+  <nav class="toc">
+    <a href="#summary">핵심 요약</a>
+    <a href="#schedule">일정</a>
+    <a href="#brand">브랜드 가이드</a>
+    <a href="#detail">상세페이지 요구사항</a>
+    <a href="#global">홈 · 글로벌 방향</a>
+    <a href="#refs">레퍼런스</a>
+    <a href="#deliver">산출물 형식</a>
+    <a href="#todo">할 일</a>
+    <a href="#open">미정 · 확인 필요</a>
+  </nav>
+
+  <!-- 1 -->
+  <section id="summary">
+    <h2><span class="num">01</span>핵심 요약</h2>
+    <div class="grid g3">
+      <div class="card kpi">
+        <div class="label">우선순위</div>
+        <div class="value">국내 상세페이지</div>
+        <div class="note">국내 리뉴얼 먼저, 글로벌은 그다음</div>
+      </div>
+      <div class="card kpi">
+        <div class="label">핵심 관점</div>
+        <div class="value">제품 디테일</div>
+        <div class="note">앞·뒤·옆·위·아래 모두, 소재 클로즈업 필수</div>
+      </div>
+      <div class="card kpi">
+        <div class="label">당장 할 일</div>
+        <div class="value">내일 레이아웃 전달</div>
+        <div class="note">사진 없이 박스 + 설명으로도 충분</div>
+      </div>
+    </div>
+    <p class="quote">"요즘 뭐를 사려고 하던지 상세가 제대로 안 나오는 게 제일 불편한 부분" — 제품을 모든 각도에서 제대로 보여주는 것이 이번 리뉴얼의 중심.</p>
+  </section>
+
+  <!-- 2 -->
+  <section id="schedule">
+    <h2><span class="num">02</span>일정</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>항목</th><th>기한</th><th>비고</th></tr></thead>
+        <tbody>
+          <tr><td>레이아웃 시안 전달</td><td><b>내일 (10/20)</b></td><td>레이아웃 위주. 디자인 완성도보다 구성 확인용</td></tr>
+          <tr><td>국내 페이지 리뉴얼</td><td><b>11월 안</b></td><td>상세페이지 중심</td></tr>
+          <tr><td>글로벌 홈페이지</td><td><b>2027-01-30</b></td><td>사업비 집행 목적. 12월 말 집행 예정</td></tr>
+          <tr><td>미팅</td><td>목·금 저녁 또는 주말</td><td>휘영 목·금 동대문 출장. 안형준 화~금 재택이라 일정 맞추기 가능. 이때 브랜드 자료 공유 예정</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="muted" style="margin-top:8px">※ 최종안은 회사 내부 컨펌 필요.</p>
+  </section>
+
+  <!-- 3 -->
+  <section id="brand">
+    <h2><span class="num">03</span>브랜드 가이드</h2>
+    <div class="grid g2">
+      <div class="card">
+        <h3>브랜드 컬러</h3>
+        <div class="chips">
+          <div class="chip"><i style="background:#111"></i><div><b>블랙</b><span>베이스</span></div></div>
+          <div class="chip"><i style="background:linear-gradient(135deg,#e6e8ec,#a9aeb7)"></i><div><b>실버</b><span>보조</span></div></div>
+          <div class="chip"><i style="background:#0047ab"></i><div><b>코발트블루</b><span>포인트</span></div></div>
+        </div>
+        <p class="quote">코발트블루는 <b>포인트로만</b>. 전체에 도배하지 않기.</p>
+      </div>
+      <div class="card">
+        <h3>톤 · 키워드</h3>
+        <ul>
+          <li>브랜드 키워드에 <b>BOLD</b> 포함 (현 상세 메인 비주얼: BOLD / RESILIENT / NOVA)</li>
+          <li>글로벌은 <b>모던 + 스포티</b></li>
+          <li>국내용과 국외용은 <b>방향성을 아예 다르게</b></li>
+          <li>카피는 "눈을 깜빡여도 기억나는" 짧고 읽히는 문구</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>로고 방향 <span class="tag opt">참고만</span></h3>
+        <p class="muted" style="margin:0">의류 라인용 로고 중 <b>초크를 털 때 퍼지는 느낌</b>에서 나온 버전을 좋아함. 홈페이지 로고도 그 방향이면 좋겠다는 의견. 디자인 요소라 참고 수준.</p>
+      </div>
+      <div class="card">
+        <h3>제품군</h3>
+        <p class="muted" style="margin:0">벨트, 그립, 니슬리브 등 장비 다수. 크로스핏 · 역도 타깃. 현재 쇼핑몰은 아임웹.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section id="detail">
+    <h2><span class="num">04</span>상세페이지 요구사항</h2>
+    <ol class="req">
+      <li><b><span class="tag must">필수</span>360° 회전 뷰</b><p>마우스나 손가락으로 끌어서 돌려보는 제품 이미지. 휘영이 가장 넣고 싶은 요소이고 "무조건" 들어가야 함.</p></li>
+      <li><b><span class="tag must">필수</span>모든 각도 컷</b><p>앞 · 뒤 · 옆 · 위 · 아래를 다 보여주기.</p></li>
+      <li><b><span class="tag must">필수</span>소재 클로즈업</b><p>Velites는 영상으로 보여주지만, 가만히 지켜봐야 하는 영상은 별로. 사용자가 직접 넘기거나 확대하는 <b>정지 이미지나 인터랙션</b>으로.</p></li>
+      <li><b><span class="tag must">필수</span>확대샷 + 구조도 (도식화)</b><p>부위별 확대 이미지와 구조를 설명하는 다이어그램. 도식화를 자동으로 만들 수 있으면 좋겠다는 의견.</p></li>
+      <li><b><span class="tag must">필수</span>컬러칩</b><p>색상 옵션이 확실하게 보이도록. 현재 페이지는 실제 색과 표기(블루/그린)가 헷갈림.</p></li>
+      <li><b><span class="tag ref">권장</span>들어간 재료 컷</b><p>구성 소재나 부자재를 펼쳐서 보여주는 컷.</p></li>
+      <li><b><span class="tag ref">권장</span>읽히는 카피</b><p>글을 쓰되 읽히지 않는 문구는 안 됨. 짧고 기억에 남게.</p></li>
+      <li><b><span class="tag opt">선택 · 구현 X</span>착장 모델 + 컬러 조합 예시</b><p>모델이 벨트 · 그립 · 니슬리브를 착용하고, 원하는 컬러 조합을 보여주는 아이디어. 구현은 안 해도 되고 예시만.</p></li>
+    </ol>
+    <div class="callout" style="margin-top:14px">
+      <b>시안 방향:</b> 여러 버전을 만들되, 그중 하나는 <b>제품 디테일 요구사항을 적극 반영한 버전</b>으로.
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section id="global">
+    <h2><span class="num">05</span>홈 · 글로벌 방향</h2>
+    <div class="grid g2">
+      <div class="card">
+        <h3>글로벌 홈</h3>
+        <ul>
+          <li>모던하면서 스포티, BOLD 키워드</li>
+          <li>브랜드 감도를 보여주는 레이아웃</li>
+          <li>목적: 브랜드 감도 확보 (사업비 집행 건)</li>
+          <li>레퍼런스: awwwards (디자인, 레이아웃 둘 다 OK)</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>홈 메인 아이디어</h3>
+        <ul>
+          <li>카테고리 구성 영역에 핀 레퍼런스 레이아웃 적용</li>
+          <li><b>짐백에서 제품들이 나오는</b> 연출</li>
+          <li>국내 레퍼런스: GDWEB 2026 수상작 (구체적으로 어떤 작품인지는 미정)</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section id="refs">
+    <h2><span class="num">06</span>레퍼런스</h2>
+
+    <h3 style="margin-top:4px">사이트</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>사이트</th><th>메모</th></tr></thead>
+        <tbody>
+          <tr><td>엑스포디움</td><td>같은 업계 (개별 브랜드). 상세는 간단, 제품 설명보다 예시컷 위주</td></tr>
+          <tr><td>와드프렌즈</td><td>같은 업계 (개별 브랜드)</td></tr>
+          <tr><td><a href="https://eu.velitessport.com/" target="_blank" rel="noreferrer">eu.velitessport.com</a></td><td><b>마케터가 마음에 들어 하는 사이트.</b> 홈 · 상세 모두. 사진이 깔끔함. 소재는 영상으로 보여줌</td></tr>
+          <tr><td><a href="https://www.nike.com/kr/nikeskims" target="_blank" rel="noreferrer">nike.com/kr/nikeskims</a></td><td>휘영이 생각하는 <b>필수 요소</b> (캡처 2장 함께 전달)</td></tr>
+          <tr><td><a href="https://www.gdweb.co.kr/sub/mobile.asp" target="_blank" rel="noreferrer">GDWEB 지디웹</a></td><td>국내 레퍼런스. 2026 수상작</td></tr>
+          <tr><td>awwwards</td><td>글로벌 레퍼런스</td></tr>
+          <tr><td><a href="https://www.outdothebest.com/shop_view/?idx=108" target="_blank" rel="noreferrer">현재 브리즈 벨트 상세</a></td><td>리뉴얼 대상 원본. 로컬 클론: <code>/samples/breeze-belt</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 style="margin-top:24px">Pinterest 핀</h3>
+    <p class="muted" style="margin-top:0">핀을 직접 열어 실제 내용 기준으로 다시 분류함 (10/19). 이미지와 상세 분석은 <a href="reference-analysis.html">레퍼런스 분석 문서</a> 참고.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>시간</th><th>링크</th><th>분류 · 메모</th></tr></thead>
+        <tbody>
+          <tr><td class="time">16:33</td><td><a href="https://pin.it/5EJ03vIiP" target="_blank" rel="noreferrer">pin.it/5EJ03vIiP</a></td><td><b>상세</b> · 제품 사진 위 콜아웃(포인트 설명) UI</td></tr>
+          <tr><td class="time">16:35</td><td><a href="https://pin.it/1CJsLJr61" target="_blank" rel="noreferrer">pin.it/1CJsLJr61</a></td><td><b>디자인 요소</b> · 신체 부위에 포커스 박스(CCTV 느낌)</td></tr>
+          <tr><td class="time">16:37</td><td><a href="https://pin.it/2FcOXBDas" target="_blank" rel="noreferrer">pin.it/2FcOXBDas</a></td><td><b>상세</b> · 앞·옆·뒤 멀티앵글 착장 나열 (발렌시아가) <span class="fix">정정</span></td></tr>
+          <tr><td class="time">16:49</td><td><a href="https://pin.it/7B5rvbsJL" target="_blank" rel="noreferrer">pin.it/7B5rvbsJL</a></td><td><b>글로벌</b> · 모던 + 스포티 UI</td></tr>
+          <tr><td class="time">16:50</td><td><a href="https://pin.it/jWmBGJUbw" target="_blank" rel="noreferrer">pin.it/jWmBGJUbw</a></td><td><b>상세</b> · 스펙을 슬라이더 게이지로 표현 <span class="fix">정정</span></td></tr>
+          <tr><td class="time">16:50</td><td><a href="https://pin.it/1shJ5DwWK" target="_blank" rel="noreferrer">pin.it/1shJ5DwWK</a></td><td><b>상세</b> · 도트 평점으로 특성 비교 <span class="fix">정정</span></td></tr>
+          <tr><td class="time">16:51</td><td><a href="https://pin.it/FebyjpOme" target="_blank" rel="noreferrer">pin.it/FebyjpOme</a></td><td><b>컬러</b> · 블루 단일 오브제 미니멀 <span class="fix">정정</span></td></tr>
+          <tr><td class="time">16:52</td><td><a href="https://pin.it/xtxb6Dewl" target="_blank" rel="noreferrer">pin.it/xtxb6Dewl</a></td><td><b>컬러</b> · 모노톤 + 레드 포인트 → 코발트 포인트 예시</td></tr>
+          <tr><td class="time">16:53</td><td><a href="https://pin.it/36xoGv6DI" target="_blank" rel="noreferrer">pin.it/36xoGv6DI</a></td><td><b>카피</b> · FRISKEY 볼드 카피</td></tr>
+          <tr><td class="time">16:54</td><td><a href="https://pin.it/4nFudRgUE" target="_blank" rel="noreferrer">pin.it/4nFudRgUE</a></td><td><b>상세</b> · 스펙시트 라인 드로잉 도식</td></tr>
+          <tr><td class="time">16:54</td><td><a href="https://pin.it/gWzIm9bML" target="_blank" rel="noreferrer">pin.it/gWzIm9bML</a></td><td><b>상세</b> · 컬러칩 — <b>링크 깨짐, 재요청 필요</b></td></tr>
+          <tr><td class="time">16:55</td><td><a href="https://pin.it/183xm30pO" target="_blank" rel="noreferrer">pin.it/183xm30pO</a></td><td><b>상세</b> · 분해 부품 구조도 (Nothing)</td></tr>
+          <tr><td class="time">16:55</td><td><a href="https://pin.it/ci1aZPPio" target="_blank" rel="noreferrer">pin.it/ci1aZPPio</a></td><td><b>상세</b> · 테크 스펙 포스터 <span class="fix">정정</span></td></tr>
+          <tr><td class="time">16:56</td><td><a href="https://pin.it/2bx82fhpV" target="_blank" rel="noreferrer">pin.it/2bx82fhpV</a></td><td><b>글로벌 홈</b> · 에디토리얼 레이아웃</td></tr>
+          <tr><td class="time">16:57</td><td><a href="https://pin.it/3rh1g1JZa" target="_blank" rel="noreferrer">pin.it/3rh1g1JZa</a></td><td><b>상세</b> · 정면/측면/후면 + 디테일 (ARES)</td></tr>
+          <tr><td class="time">17:00</td><td><a href="https://pin.it/1hmWkCh5g" target="_blank" rel="noreferrer">pin.it/1hmWkCh5g</a></td><td><b>홈</b> · Shop-the-look 콜아웃</td></tr>
+          <tr><td class="time">17:01</td><td><a href="https://pin.it/6juqTcFk5" target="_blank" rel="noreferrer">pin.it/6juqTcFk5</a></td><td><b>컬러</b> · 컬러 팔레트 칩 <span class="fix">정정</span></td></tr>
+          <tr><td class="time">17:01</td><td><a href="https://pin.it/Lj150dzlP" target="_blank" rel="noreferrer">pin.it/Lj150dzlP</a></td><td><b>홈</b> · 가방 속 아이템 연출 (Inside the bag)</td></tr>
+          <tr><td class="time">17:08</td><td><a href="https://pin.it/2eX96xpKR" target="_blank" rel="noreferrer">pin.it/2eX96xpKR</a></td><td><b>상세</b> · 원단 스와치</td></tr>
+          <tr><td class="time">17:08</td><td><a href="https://pin.it/5yAMNGcUw" target="_blank" rel="noreferrer">pin.it/5yAMNGcUw</a></td><td><b>상세</b> · 원단 스와치</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="muted" style="margin-top:8px">※ 대화 중 공유된 사진(16:24, 16:31 ×2, 16:44 ×2)은 이 문서에 포함되지 않음. 16:44 사진은 의류 라인 로고 참고 이미지.</p>
+  </section>
+
+  <!-- 7 -->
+  <section id="deliver">
+    <h2><span class="num">07</span>산출물 형식</h2>
+    <div class="card">
+      <ul>
+        <li><b>레이아웃 레퍼런스</b>로 전달하기. 디자인 완성본이 아니어도 됨</li>
+        <li>사진이 없으면 <b>빈 박스 + "어떤 사진이 들어갈지" 설명</b>으로 충분</li>
+        <li>360° 뷰나 도식화처럼 <b>기술적으로 구현할 부분</b>도 함께 설명</li>
+        <li>국내용과 국외용은 방향을 분리해서 제안</li>
+        <li>버전 여러 개 + <b>디테일 강화 버전</b> 1개 이상</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 8 -->
+  <section id="todo">
+    <h2><span class="num">08</span>할 일 (안형준)</h2>
+    <div class="card">
+      <ul class="todo">
+        <li><input type="checkbox" checked /> <span>현재 브리즈 벨트 상세페이지 분석 + 원본 클론 구축 (<code>/samples/breeze-belt</code>)</span></li>
+        <li><input type="checkbox" /> <span>Pinterest 핀과 사이트 레퍼런스 확인하고 패턴 정리</span></li>
+        <li><input type="checkbox" /> <span>국내 상세페이지 레이아웃 시안 A/B (+ 디테일 강화 버전) 만들기</span></li>
+        <li><input type="checkbox" /> <span>360° 회전 뷰 구현 방식 검토 (필요한 촬영 컷 수, 아임웹에 넣는 방법)</span></li>
+        <li><input type="checkbox" /> <span><b>내일</b> 휘영에게 레이아웃 전달</span></li>
+        <li><input type="checkbox" /> <span>목·금 저녁 또는 주말 미팅 잡기 (브랜드 자료 공유)</span></li>
+        <li><input type="checkbox" /> <span>글로벌 홈 방향 제안 (1/30 기한)</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 9 -->
+  <section id="open">
+    <h2><span class="num">09</span>미정 · 확인 필요</h2>
+    <div class="grid g2">
+      <div class="card callout warn">
+        <h3>확인할 것</h3>
+        <ul>
+          <li>GDWEB 수상작 중 <b>구체적으로 어떤 작품</b>을 참고하라는 건지</li>
+          <li>360° 뷰용 <b>제품 촬영</b>을 할 수 있는지 (회전 촬영 컷 수급)</li>
+          <li>상세페이지를 <b>아임웹 안에서 HTML로 구현할지, 이미지로 할지</b></li>
+          <li>최종 컨펌권자와 컨펌 절차</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>참고 사항</h3>
+        <ul>
+          <li>브랜드 미션 · 비전 재정립이 아직 안 됨 (8월부터 논의만 됨)</li>
+          <li>시각 디자이너가 아직 없음. 휘영이 디자인 자료를 대신 수집 중</li>
+          <li>루리 건은 휘영이 패스하기로 정리 → 안형준이 진행</li>
+          <li>사업비 규모: 약 5천만 원</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    작성일 2026-10-19 · 출처: 휘영 · 안형준 메신저 대화 (16:18–17:42)
+  </footer>
+</div>
+</body>
+</html>
