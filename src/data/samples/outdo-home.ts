@@ -93,15 +93,16 @@ export const features = [
 ];
 
 // 상품 옵션 컬러를 묶어서. 칩 색은 사진에서 뽑은 대표색
+// 컬러별 착용컷이 없어 칸 전체를 그 색으로 채우고 실제 상품 사진을 올린다 (착용컷 촬영 후 교체)
 const has = (...names: string[]) => all.filter((p) => p.colors.some((c) => names.some((n) => c.includes(n)))).length;
 
 export const shopColors = [
-  { name: "블랙", chip: "#141414", image: `${P}/p110-b.jpg`, count: has("블랙") },
-  { name: "오렌지", chip: "#f26b1d", image: `${P}/p106-a.jpg`, count: has("오렌지") },
-  { name: "블루", chip: "#2b6fd6", image: `${P}/p32-a.jpg`, count: has("블루") },
-  { name: "민트", chip: "#8fd6c4", image: `${P}/p109-a.jpg`, count: has("민트") },
-  { name: "핑크", chip: "#e7a6c2", image: `${CROP}/color-pink.jpg`, count: has("핑크") },
-  { name: "카키", chip: "#59613a", image: `${P}/p232-a.png`, count: has("카키") },
+  { name: "블랙", chip: "#141414", ink: "#fff", image: `${P}/p110-b.jpg`, count: has("블랙") },
+  { name: "오렌지", chip: "#f26b1d", ink: "#0a1939", image: `${P}/p106-a.jpg`, count: has("오렌지") },
+  { name: "블루", chip: "#2b6fd6", ink: "#fff", image: `${P}/p32-a.jpg`, count: has("블루") },
+  { name: "민트", chip: "#8fd6c4", ink: "#0a1939", image: `${P}/p109-a.jpg`, count: has("민트") },
+  { name: "핑크", chip: "#e7a6c2", ink: "#0a1939", image: `${CROP}/color-pink.jpg`, count: has("핑크") },
+  { name: "카키", chip: "#59613a", ink: "#fff", image: `${P}/p232-a.png`, count: has("카키") },
 ];
 
 // 스킴스 '컬렉션 가이드' 자리. 설명 대신 고를 때 필요한 사실(사이즈·컬러·가격)만
@@ -110,14 +111,15 @@ export const guides = [
   { title: "니슬리브", items: [products.neopro, products.dualguard, products.flex] },
 ];
 
+// 카테고리는 착용 · 사용 사진으로. 벨트만 실제 상품 사진, 나머지는 대체 사진
 export const categories = [
-  { name: "그립", image: products.nano.image, items: [products.synergy, products.alpha, products.nano, products.nanoPlus, products.janus] },
-  { name: "벨트", image: products.liftingBelt.image, items: [products.liftingBelt, products.breeze] },
-  { name: "니슬리브", image: products.flex.image, items: [products.neopro, products.dualguard, products.flex] },
-  { name: "손목", image: products.wristWrap.image, items: [products.wristWrap, products.wristBand, products.sweatband] },
-  { name: "스트랩 · 테이프", image: products.strap.image, items: [products.strap, products.tape] },
-  { name: "줄넘기", image: products.rope.image, items: [products.rope] },
-  { name: "장비", image: products.bench.image, items: [products.bench] },
+  { name: "그립", photo: stand("7674493", "그립 착용컷"), items: [products.synergy, products.alpha, products.nano, products.nanoPlus, products.janus] },
+  { name: "벨트", photo: { src: `${CROP}/hero-plate.jpg` } as Photo, items: [products.liftingBelt, products.breeze] },
+  { name: "니슬리브", photo: stand("39635351", "니슬리브 착용컷"), items: [products.neopro, products.dualguard, products.flex] },
+  { name: "손목", photo: stand("1552106", "리스트 랩 착용컷"), items: [products.wristWrap, products.wristBand, products.sweatband] },
+  { name: "스트랩 · 테이프", photo: stand("27433227", "스트랩 착용컷"), items: [products.strap, products.tape] },
+  { name: "줄넘기", photo: stand("6389871", "볼티코 로프 사용컷"), items: [products.rope] },
+  { name: "장비", photo: stand("38675855", "플랫벤치 사용컷"), items: [products.bench] },
 ];
 
 // 현재 홈의 STRENGTH · CONDITIONING · ACCESSORIES 배너를 종목 기준으로
@@ -128,8 +130,15 @@ export const movements = [
 ];
 
 export const sitePhotos = {
-  suff: `${SITE}/bg-7dc019f8e8f64.jpg`,
   box: `${SITE}/bg-14e1c05a22068.jpg`,
+};
+
+// 현재 홈 SUFF 섹션 배경 영상 (아임웹 유튜브 배경, 제목 'CROSSFIT SUFF / OUTDO VIDEO')
+// 내려받지 않고 유튜브 · 아임웹 CDN 주소를 그대로 쓴다. poster = 영상이 뜨기 전 보이는 현재 섹션 배경 사진
+export const suffVideo = {
+  youtubeId: "xOGnQCl-Dzs",
+  title: "CROSSFIT SUFF / OUTDO VIDEO",
+  poster: "https://cdn.imweb.me/thumbnail/20240920/a50b470c77af0.png",
 };
 
 // 현재 홈에 있는 문구 그대로
@@ -159,6 +168,14 @@ export const homeNotes: SectionNote[] = [
     ref: "나이키 스킴스 '올데이 유니폼' 소개",
   },
   {
+    id: "partner",
+    label: "SUFF 영상",
+    before: "홈 중간, SUFF 대회 유튜브 영상이 배경으로 깔린 섹션 + 같은 문구.",
+    after: "같은 영상 · 문구를 브랜드 한 줄 바로 아래로 올림. 영상은 소리 없이 자동 반복, 2025 SUFF SET 바로가기 추가.",
+    why: "공식 파트너는 신뢰 근거라 남기고, 대회 굿즈로 바로 연결해 배너가 매출로 이어지게. 이미 있는 영상 자산을 그대로 쓰고, 스킴스 홈도 같은 자리에 영상을 둡니다.",
+    ref: "나이키 스킴스 홈 중간 영상",
+  },
+  {
     id: "feature",
     label: "신제품 카드",
     before: "신제품 소개 영역 없음. 브리즈 벨트는 SHOP 목록 안에만.",
@@ -177,7 +194,7 @@ export const homeNotes: SectionNote[] = [
     id: "color",
     label: "Shop by Color",
     before: "없음.",
-    after: "상품 옵션 컬러를 6개로 묶어 컬러별 보기. 칸마다 해당 컬러 상품 수.",
+    after: "상품 옵션 컬러를 6개로 묶어 컬러별 보기. 칸 전체를 그 색으로 채우고 해당 컬러 상품 수 표시. 컬러별 착용컷을 촬영하면 사진으로 교체.",
     why: "그립 · 니슬리브 · 벨트를 맞춰 사는 고객이 많은 카테고리라 '컬러 깔맞춤'이 구매 이유가 됩니다. 컬러별 묶음 = 세트 할인 · 컬러 광고 소재로 연결.",
     ref: "나이키 스킴스 Shop by Color",
   },
@@ -185,15 +202,15 @@ export const homeNotes: SectionNote[] = [
     id: "guide",
     label: "그립 · 니슬리브 가이드",
     before: "없음. 그립 5종이 목록에 나란히 있어 차이를 알 수 없음.",
-    after: "그립 5종, 니슬리브 3종을 이름 · 사이즈 · 컬러 · 가격으로 한 줄씩.",
-    why: "같은 카테고리 상품이 많을수록 '뭐가 다른데?'에서 이탈합니다. 한 줄 설명은 상품팀이 채울 자리로 비워 두고 지금은 사실만 넣었습니다.",
+    after: "그립 5종, 니슬리브 3종을 이름 · 사이즈 · 컬러로 한 줄씩. 가격은 BEST와 상세에서.",
+    why: "같은 카테고리 상품이 많을수록 '뭐가 다른데?'에서 이탈합니다. 한 줄 설명은 상품팀이 채울 자리로 비워 두고 지금은 사실만 넣었습니다. 홈에 가격이 여러 번 나오면 목록 페이지처럼 빽빽해져 가격은 한 곳에만 둡니다.",
     ref: "나이키 스킴스 컬렉션 가이드",
   },
   {
     id: "category",
     label: "Shop by Category",
     before: "상단 메뉴 SHOP 하위에만 Strength · Conditioning · Accessories.",
-    after: "그립 · 벨트 · 니슬리브 · 손목 · 스트랩 · 줄넘기 · 장비 7칸.",
+    after: "그립 · 벨트 · 니슬리브 · 손목 · 스트랩 · 줄넘기 · 장비 7칸. 상품 누끼 대신 착용 · 사용 사진 카드를 옆으로 넘겨 보기.",
     why: "Strength / Accessories는 브랜드 기준 분류라 고객이 찾는 말(그립, 니슬리브)과 다릅니다. 고객이 검색하는 단어로 나눕니다.",
     ref: "나이키 스킴스 Shop by Category",
   },
@@ -201,16 +218,9 @@ export const homeNotes: SectionNote[] = [
     id: "movement",
     label: "Shop by Movement",
     before: "STRENGTH · CONDITIONING · ACCESSORIES 배너 3장 (글자가 이미지에 박힘).",
-    after: "GYMNASTICS · WEIGHTLIFTING · CONDITIONING. 종목마다 쓰는 장비 상품을 바로 아래에.",
+    after: "GYMNASTICS · WEIGHTLIFTING · CONDITIONING. 종목마다 쓰는 장비 이름을 바로 아래에 (가격은 상세에서).",
     why: "크로스핏터는 '오늘 무슨 종목이냐'로 장비를 삽니다. 종목 = 광고 타겟 단위라 광고에서 바로 이 섹션으로 보낼 수 있습니다.",
     ref: "나이키 스킴스 Shop by Movement",
-  },
-  {
-    id: "partner",
-    label: "SUFF 파트너",
-    before: "같은 문구, 해변 러닝 사진 배너.",
-    after: "문구 그대로 + 2025 SUFF SET 바로가기.",
-    why: "공식 파트너는 신뢰 근거라 남기고, 대회 굿즈로 바로 연결해 배너가 매출로 이어지게.",
   },
   {
     id: "box",

@@ -10,13 +10,22 @@ export interface Shot {
   alt: string;
   // 누끼 제품컷은 회색 바탕 위에 contain, 착용컷은 cover
   fit: "contain" | "cover";
+  // 360도 보기 칸. frames가 비어 있으면 src 한 장을 입체로 돌려 동작만 보여준다 (대체 표시)
+  spin?: { frames: string[] };
 }
 
-// 첫 장만 선택한 컬러로 바뀐다. 컬러별 착용컷이 없어 2번부터는 공통
+// 360도 회전 사진: 회전판에 올려 0°부터 같은 간격으로 24~36장. 촬영 전이라 비어 있음
+// 예) ["/assets/breeze-belt/spin/pink-00.jpg", "/assets/breeze-belt/spin/pink-01.jpg", ...]
+export const spinFrames: Record<string, string[]> = { 핑크: [], 오렌지: [], 블루: [] };
+
+// 첫 장은 착용컷(가로로 긴 누끼는 세로 칸에서 빈 공간이 커서). 두 번째 장과 360도 칸만 선택한 컬러로 바뀐다
+// 컬러별 착용컷이 없어 나머지는 공통
+export const COLOR_SHOT = 1;
 export const galleryFor = (color: BeltColor): Shot[] => [
-  { src: color.image, alt: `브리즈 벨트 ${color.name}`, fit: "contain" },
-  { src: "/assets/breeze-belt/gallery-01.jpg", alt: "브리즈 벨트 3컬러", fit: "contain" },
   { src: photos.holdBelt, alt: "브리즈 벨트 착용컷", fit: "cover" },
+  { src: color.image, alt: `브리즈 벨트 ${color.name}`, fit: "contain" },
+  { src: color.image, alt: `브리즈 벨트 ${color.name} 360도 보기`, fit: "contain", spin: { frames: spinFrames[color.name] ?? [] } },
+  { src: "/assets/breeze-belt/gallery-01.jpg", alt: "브리즈 벨트 3컬러", fit: "contain" },
   { src: photos.squatBack, alt: "스쿼트 착용 뒷모습", fit: "cover" },
   { src: photos.athleteWod, alt: "WOD 착용컷", fit: "cover" },
   { src: photos.deadlift, alt: "데드리프트 착용컷", fit: "cover" },
@@ -50,7 +59,8 @@ export const facts = (color: BeltColor) => [
 // '상품 상세 정보 보기' 팝업 — 나이키는 여기에 혜택 · 상세 정보를 모아 둔다
 export const benefits = [
   { title: "착용한 듯 안 한 듯한 가벼움", body: "XS 기준 238g. 타사 벨트 약 381g보다 143g 가볍습니다.", image: photos.slim },
-  { title: "프리미엄 벨크로 락", body: "넓은 면적의 벨크로가 풀업 · 점프 · 하이풀에서도 풀리지 않습니다.", image: photos.velcro },
+  // 상세 DETAIL 01 원문: "풀업, 점프, 하이풀에서도 벨트가 흔들리지 않도록 유지할 수 있도록 강력한 고정력을 가진 프리미엄 벨크로"
+  { title: "프리미엄 벨크로 락", body: "풀업 · 점프 · 하이풀에서도 벨트가 흔들리지 않도록 강력한 고정력을 가진 프리미엄 벨크로를 사용했습니다.", image: photos.velcro },
   { title: "고밀도 내구성", body: "폼 + 텍스타일 결합 구조로 오래 써도 형태가 무너지지 않습니다.", image: photos.beltDark },
   { title: "독보적인 디자인", body: "'I'M THE BEST' 로고 패치. OUTDO만의 디테일입니다.", image: photos.patchHand },
 ];
@@ -98,7 +108,7 @@ export const productNotes: SectionNote[] = [
     id: "top",
     label: "상단 구매 영역",
     before: "아임웹 기본 영역: 사진 2장, 상품명 · 가격 아래에 옵션 드롭다운 2개.",
-    after: "사진 11장 갤러리 + 상품명 · 가격 · 컬러 사진 칩 · 사이즈 버튼 · 구매 버튼.",
+    after: "착용컷이 첫 장인 사진 갤러리(360도 보기 칸 포함) + 상품명 · 가격 · 컬러 사진 칩 · 사이즈 버튼 · 구매 버튼. 360도 칸은 회전판 촬영(24~36장) 전이라 사진 한 장을 돌려 동작만 보여줍니다.",
     why: "나이키 상세는 첫 화면에서 '고르고 담기'가 끝납니다. 드롭다운은 눌러봐야 옵션이 보이지만, 칩과 버튼은 보는 순간 고를 수 있습니다. 착용컷이 상단 갤러리로 올라와 긴 상세를 내리지 않아도 됩니다.",
     ref: "나이키 스킴스 리프트 새틴 상단",
   },
@@ -106,7 +116,7 @@ export const productNotes: SectionNote[] = [
     id: "color",
     label: "컬러 사진 칩",
     before: "'색상' 드롭다운에 오렌지 / 블루 / 핑크 글자만.",
-    after: "벨트 사진 칩 3개. 누르면 갤러리 첫 장과 '현재 컬러'가 바뀜.",
+    after: "벨트 사진 칩 3개. 누르면 갤러리가 그 컬러 사진으로 넘어가고 '현재 컬러'가 바뀜.",
     why: "옵션명(오렌지)과 실제 바탕색(네이비)이 달라 글자만으로는 헷갈립니다. 사진으로 고르면 잘못 주문이 줄어듭니다. 컬러별 착용컷을 찍으면 갤러리 전체를 컬러별로 바꿀 수 있습니다.",
     ref: "나이키 컬러웨이 썸네일",
   },

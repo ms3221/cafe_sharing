@@ -8,6 +8,7 @@ import { photoReviews, product, reviewSummary, reviews } from "@/data/samples/br
 import { shopUrl } from "@/data/samples/outdo-home";
 import {
   benefits,
+  COLOR_SHOT,
   colors,
   description,
   facts,
@@ -20,6 +21,7 @@ import {
   type Shot,
 } from "@/data/samples/skims-product";
 import { cn } from "@/lib/utils";
+import { Spin360 } from "./Spin360";
 
 // 나이키 스킴스 상품 페이지 구조를 브리즈 벨트에 옮긴 안
 // 갤러리 + 구매 영역 → 짧은 설명 → 상세 정보 팝업 → 접는 메뉴(사이즈 · 배송 · 리뷰 · FAQ · 추가 정보) → 추천 상품
@@ -40,12 +42,16 @@ function Photo({ shot, sizes, priority }: { shot: Shot; sizes: string; priority?
   );
 }
 
+function Slide({ shot, sizes, priority }: { shot: Shot; sizes: string; priority?: boolean }) {
+  return shot.spin ? <Spin360 src={shot.src} alt={shot.alt} frames={shot.spin.frames} /> : <Photo shot={shot} sizes={sizes} priority={priority} />;
+}
+
 function Title({ className }: { className?: string }) {
   return (
     <div className={className}>
-      <h1 className="text-[20px] font-medium md:text-[24px]">{product.name}</h1>
-      <p className="text-[15px] text-neutral-500">{subtitle}</p>
-      <p className="mt-3 text-[16px] font-medium">{won(product.price)}</p>
+      <h1 className="text-[24px] font-medium md:text-[32px]">{product.name}</h1>
+      <p className="text-[16px] text-neutral-500">{subtitle}</p>
+      <p className="mt-3 text-[18px] font-medium">{won(product.price)}</p>
     </div>
   );
 }
@@ -70,17 +76,26 @@ function Gallery({ shots, index, onIndex }: { shots: Shot[]; index: number; onIn
           className="scrollbar-hide flex snap-x snap-mandatory overflow-x-auto"
         >
           {shots.map((shot, i) => (
-            <div key={shot.src} className="relative aspect-square w-full shrink-0 snap-center bg-[#f5f5f5]">
-              <Photo shot={shot} sizes="100vw" priority={i === 0} />
+            <div key={`${i}-${shot.src}`} className="relative aspect-square w-full shrink-0 snap-center bg-[#f5f5f5]">
+              <Slide shot={shot} sizes="100vw" priority={i === 0} />
             </div>
           ))}
         </div>
         <span className="absolute top-4 left-4 flex items-center gap-1 rounded-full bg-white px-3 py-1.5 text-[13px] font-medium shadow-sm">
           <Star className="h-3.5 w-3.5 fill-current" /> 평점 {reviewSummary.average.toFixed(1)}
         </span>
+        {/* 모바일은 썸네일이 없어 360도 칸으로 바로 가는 버튼 */}
+        {shots.some((s) => s.spin) && index !== shots.findIndex((s) => s.spin) && (
+          <button
+            onClick={() => onIndex(shots.findIndex((s) => s.spin))}
+            className="absolute top-4 right-4 rounded-full bg-white px-3 py-1.5 text-[13px] font-bold shadow-sm"
+          >
+            360°
+          </button>
+        )}
         <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 gap-1">
           {shots.map((shot, i) => (
-            <span key={shot.src} className={cn("h-[3px] rounded-full transition-all", i === index ? "w-4 bg-neutral-950" : "w-1.5 bg-neutral-400")} />
+            <span key={`${i}-${shot.src}`} className={cn("h-[3px] rounded-full transition-all", i === index ? "w-4 bg-neutral-950" : "w-1.5 bg-neutral-400")} />
           ))}
         </div>
       </div>
@@ -90,19 +105,20 @@ function Gallery({ shots, index, onIndex }: { shots: Shot[]; index: number; onIn
         <div className="scrollbar-hide flex max-h-[660px] w-[60px] shrink-0 flex-col gap-2 overflow-y-auto">
           {shots.map((shot, i) => (
             <button
-              key={shot.src}
+              key={`${i}-${shot.src}`}
               onMouseEnter={() => onIndex(i)}
               onClick={() => onIndex(i)}
-              aria-label={`${i + 1}번째 사진`}
+              aria-label={shot.spin ? "360도 보기" : `${i + 1}번째 사진`}
               className="relative aspect-square w-[60px] shrink-0 overflow-hidden rounded bg-[#f5f5f5]"
             >
               <Image src={shot.src} alt="" fill sizes="60px" className={shot.fit === "contain" ? "object-contain p-1" : "object-cover"} />
+              {shot.spin && <span className="absolute inset-x-0 bottom-0 bg-neutral-950/75 py-0.5 text-center text-[11px] font-bold text-white">360°</span>}
               {i === index && <span className="absolute inset-0 bg-black/20" />}
             </button>
           ))}
         </div>
         <div className="relative aspect-[4/5] flex-1 overflow-hidden rounded bg-[#f5f5f5]">
-          <Photo shot={shots[index]} sizes="(min-width: 768px) 40vw, 100vw" priority />
+          <Slide shot={shots[index]} sizes="(min-width: 768px) 40vw, 100vw" priority />
           <span className="absolute top-4 left-4 flex items-center gap-1 rounded-full bg-white px-3 py-1.5 text-[13px] font-medium">
             <Star className="h-3.5 w-3.5 fill-current" /> 평점 {reviewSummary.average.toFixed(1)}
           </span>
@@ -130,7 +146,7 @@ function Fold({ title, aside, note, open, id, children }: { title: string; aside
           <ChevronDown className="h-5 w-5 transition-transform group-open:rotate-180" />
         </span>
       </summary>
-      <div className="pb-8 text-[15px] leading-relaxed">{children}</div>
+      <div className="pb-8 text-[16px] leading-relaxed">{children}</div>
     </details>
   );
 }
@@ -303,7 +319,7 @@ export function SkimsProduct() {
 
   const pickColor = (c: BeltColor) => {
     setColor(c);
-    setIndex(0);
+    setIndex(COLOR_SHOT);
   };
 
   const submit = (action: string) => {
@@ -319,7 +335,8 @@ export function SkimsProduct() {
   };
 
   return (
-    <main className="bg-white text-neutral-950">
+    // break-keep: 한글 단어가 줄 끝에서 잘리지 않게
+    <main className="bg-white break-keep text-neutral-950">
       <div className="mx-auto max-w-[1100px] md:grid md:grid-cols-[minmax(0,1fr)_380px] md:gap-12 md:px-8 md:pt-12">
         <Title className="px-5 pt-6 pb-4 md:hidden" />
 
@@ -371,7 +388,7 @@ export function SkimsProduct() {
                   )}
                 >
                   <span className="block text-[16px]">{s.size}</span>
-                  <span className="block text-[12px] text-neutral-500">허리 {s.cm}cm</span>
+                  <span className="block text-[13px] text-neutral-500">허리 {s.cm}cm</span>
                 </button>
               ))}
             </div>

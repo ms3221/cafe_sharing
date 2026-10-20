@@ -17,7 +17,6 @@ export default function DetailRenewalPage() {
         links={[
           { href: "https://www.outdothebest.com/shop_view/?idx=108", text: "현재 상세" },
           { href: "/samples/home", text: "시안 1 홈" },
-          { href: "/", text: "샘플 목록" },
         ]}
         rationale={{ title: "브리즈 벨트 상세", notes: productNotes }}
       >

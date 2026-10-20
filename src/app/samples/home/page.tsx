@@ -11,13 +11,12 @@ export const metadata: Metadata = {
 
 export default function HomeRenewalPage() {
   return (
-    <div className="bg-white">
+    <div className="bg-shop-navy">
       <ReviewMode
         label="시안 1 · 홈"
         links={[
           { href: "https://www.outdothebest.com/", text: "현재 홈" },
           { href: "/samples/detail", text: "시안 1 상세" },
-          { href: "/", text: "샘플 목록" },
         ]}
         rationale={{ title: "OUTDO 홈", notes: homeNotes }}
       >

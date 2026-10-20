@@ -40,7 +40,7 @@ export const structure = [
 
 export const materials = [
   { name: "외피 · 폼 결합", image: photos.slim, desc: "폼과 텍스타일 결합 구조. 오래 써도 형태가 무너지지 않습니다." },
-  { name: "벨크로", image: photos.velcro, desc: "넓은 면적의 프리미엄 벨크로. 동작 중에도 풀리지 않습니다." },
+  { name: "벨크로", image: photos.velcro, desc: "강력한 고정력의 프리미엄 벨크로. 풀업 · 점프 · 하이풀에서도 벨트가 흔들리지 않습니다." },
   { name: "로고 패치", image: photos.patchHand, desc: "'I'M THE BEST' 패치. 어디서도 못 본 OUTDO만의 디테일." },
   { name: "버클 · 스트랩", image: photos.logoPatch, desc: "스트랩을 걸어 당긴 뒤 벨크로로 고정하는 구조." },
 ];
