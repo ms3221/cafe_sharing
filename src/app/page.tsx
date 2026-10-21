@@ -153,16 +153,6 @@ export default function Home() {
       <h1 className="mt-2 text-3xl font-bold text-neutral-900 md:text-4xl">OUTDO 리뉴얼 시안</h1>
       <p className="mt-3 text-neutral-600">시안마다 홈과 상세페이지를 한 세트로 만들었습니다.</p>
 
-      {/* 발표자료 — 시안 1 · 2를 마케팅 관점으로 설명하는 PT */}
-      <Link href="/samples/pitch" className="group mt-8 flex items-center justify-between gap-6 rounded-xl bg-shop-navy p-6 text-white md:p-8">
-        <div>
-          <p className="text-sm font-bold text-white/60">발표자료</p>
-          <p className="mt-1 text-xl font-bold md:text-2xl">광고비가 매출로 이어지는 홈페이지</p>
-          <p className="mt-1 text-sm text-white/70">시안 1 · 2를 왜 이렇게 만들면 광고가 구매로 이어지는지, 광고별 도착 페이지 플레이북 · 대회 캘린더 · 운영까지 · 16장 · 키보드 →로 넘김</p>
-        </div>
-        <ArrowUpRight className="h-6 w-6 shrink-0 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
-      </Link>
-
       {/* 두 시안, 언제 무엇을 */}
       <section className="mt-12">
         <h2 className="text-xl font-bold text-neutral-900">두 시안, 언제 무엇을</h2>
