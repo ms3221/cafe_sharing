@@ -3,10 +3,10 @@
 import { useEffect, useState } from "react";
 
 // 발표자료 비밀번호 가림막
-// 비밀번호는 .env.local 의 NEXT_PUBLIC_PITCH_PASSWORD (git에 안 올라감)
-// 정적 사이트라 진짜 보안은 아니다 — 우연히 보는 것을 막는 수준. 인터넷에 올리면 호스팅의 비밀번호 보호를 써야 함
+// 비밀번호는 사용자 요청으로 코드에 직접 둠 (혼자 보는 자료). .env.local 의 NEXT_PUBLIC_PITCH_PASSWORD가 있으면 그 값이 우선
+// 정적 사이트라 진짜 보안은 아니다 — 우연히 보는 것을 막는 수준
 // 한 번 맞히면 그 브라우저 창을 닫을 때까지(sessionStorage) 다시 묻지 않는다
-const PASSWORD = process.env.NEXT_PUBLIC_PITCH_PASSWORD ?? "";
+const PASSWORD = process.env.NEXT_PUBLIC_PITCH_PASSWORD || "1234";
 const KEY = "pitch-unlocked";
 
 export function PitchGate({ children }: { children: React.ReactNode }) {
