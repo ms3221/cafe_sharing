@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { SampleGate } from "@/components/renewal/SampleGate";
 
 export const metadata: Metadata = {
   title: "상세페이지 리뉴얼 샘플",
@@ -26,7 +27,7 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased">
-        {children}
+        <SampleGate>{children}</SampleGate>
       </body>
     </html>
   );
